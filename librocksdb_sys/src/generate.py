@@ -29,13 +29,13 @@ print('')
 for task in tasks:
     begin = False
     count = 0
-    for line in open(root + '/' + task[1]):
+    for line in open(f'{root}/{task[1]}'):
         if not begin:
             if task[2].match(line):
                 begin = True
                 print('#[derive(Copy, Clone, Debug, Eq, PartialEq)]')
                 print('#[repr(C)]')
-                print('pub enum {} {{'.format(task[0]))
+                print(f'pub enum {task[0]} {{')
             continue
         if task[3].match(line):
             print('}')
@@ -51,7 +51,7 @@ for task in tasks:
             value = tokens[1].strip(' ')
             count = int(value)
         else:
-            sys.exit("invalid enum: " + line)
+            sys.exit(f"invalid enum: {line}")
         name = ''.join([w.capitalize() for w in name.split('_')])
         count = count + 1
-        print('    {} = {},'.format(name, value))
+        print(f'    {name} = {value},')
